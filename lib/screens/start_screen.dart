@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:ai_girlfriend/screens/chat_screen.dart';
 
 class StartScreen extends StatelessWidget {
-  StartScreen({super.key});
+  const StartScreen({super.key});
+
+  void startChat(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (ctx) {
+          return ChatScreen();
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,8 +31,8 @@ class StartScreen extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: Image.network(
-                  'https://www.virtualgf.chat/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Faigril.4082828b.png&w=2048&q=75', // Путь к вашему изображению
+                child: Image.asset(
+                  'assets/girl.png',
                   fit: BoxFit.cover,
                   height: 400,
                 ),
@@ -49,7 +61,9 @@ class StartScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          startChat(context);
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.pink,
                           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -69,7 +83,7 @@ class StartScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           ),
         ),
