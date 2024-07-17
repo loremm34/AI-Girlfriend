@@ -97,15 +97,16 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: const Color.fromARGB(255, 77, 76, 76),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: const Color.fromARGB(255, 77, 76, 76),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: TextField(
                         controller: _inputController,
                         decoration: const InputDecoration(
@@ -113,21 +114,21 @@ class _ChatScreenState extends State<ChatScreen> {
                           border: InputBorder.none,
                           fillColor: Colors.transparent,
                           hintText: 'Type a message...',
-                          contentPadding: EdgeInsets.all(18),
+                          contentPadding: EdgeInsets.all(12),
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      width: 25,
+                  ),
+                  const SizedBox(
+                    width: 25,
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.send,
                     ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.send,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
