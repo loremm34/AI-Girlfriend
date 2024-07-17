@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ai_girlfriend/models/message.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:ai_girlfriend/widgets/input_field_widget.dart';
+import 'package:ai_girlfriend/colors/main_style.dart';
+import 'package:ai_girlfriend/widgets/appbar_content.dart';
 
 class ChatScreen extends StatefulWidget {
   ChatScreen({super.key});
@@ -17,7 +20,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void callGeminiModel() async {
     try {
       if (_inputController.text.isNotEmpty) {
-        _messages.add(Message(text: _inputController.text!, isUser: true));
+        _messages.add(Message(text: _inputController.text, isUser: true));
       }
 
       final model = GenerativeModel(
@@ -33,7 +36,7 @@ class _ChatScreenState extends State<ChatScreen> {
           and sometimes watches TikTok but not all the time.
           The girl is not really talkative. If the person is right, then she will talk. Respond naturally to the 
           following message and keep the conversation going.
-          Here is the message: ${userPrompt}''';
+          Here is the message: $userPrompt''';
       final content = [Content.text(prompt)];
 
       final response = await model.generateContent(content);
@@ -53,27 +56,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Image.asset(
-                'assets/girl.png',
-                fit: BoxFit.cover,
-                height: 45,
-              ),
-            ),
-            const SizedBox(width: 10),
-            const Text(
-              'Alyna D\'suza',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
+        title: const AppbarContent(),
       ),
       body: GestureDetector(
         onTap: () {
@@ -95,21 +78,11 @@ class _ChatScreenState extends State<ChatScreen> {
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: message.isUser
-                              ? const Color.fromARGB(255, 42, 42, 42)
-                              : const Color.fromARGB(255, 255, 192, 203),
+                              ? MainStyle.userMessageColor
+                              : MainStyle.girlMessageColor,
                           borderRadius: message.isUser
-                              ? const BorderRadius.only(
-                                  topLeft: Radius.circular(8),
-                                  topRight: Radius.zero,
-                                  bottomLeft: Radius.circular(8),
-                                  bottomRight: Radius.circular(8),
-                                )
-                              : const BorderRadius.only(
-                                  topLeft: Radius.zero,
-                                  topRight: Radius.circular(8),
-                                  bottomLeft: Radius.circular(8),
-                                  bottomRight: Radius.circular(8),
-                                ),
+                              ? MainStyle.userMessageBorderRadius
+                              : MainStyle.girlMessageBorderRadius,
                         ),
                         child: Text(
                           message.text,
@@ -123,38 +96,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: const Color.fromARGB(255, 77, 76, 76),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: _inputController,
-                          decoration: const InputDecoration(
-                            filled: true,
-                            border: InputBorder.none,
-                            fillColor: Colors.transparent,
-                            hintText: 'Type a message...',
-                            contentPadding: EdgeInsets.all(12),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 25),
-                    IconButton(
-                      onPressed: callGeminiModel,
-                      icon: const Icon(Icons.send),
-                    ),
-                  ],
-                ),
-              ),
+            InputFieldWidget(
+              callChatBot: callGeminiModel,
+              controller: _inputController,
             ),
           ],
         ),
