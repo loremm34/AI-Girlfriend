@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ai_girlfriend/screens/start_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }
 
@@ -18,6 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       darkTheme: ThemeData.dark(),
       home: const StartScreen(),
+      themeMode: ThemeMode.dark,
     );
   }
 }
