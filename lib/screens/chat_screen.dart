@@ -5,6 +5,7 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:ai_girlfriend/widgets/input_field_widget.dart';
 import 'package:ai_girlfriend/colors/main_style.dart';
 import 'package:ai_girlfriend/widgets/appbar_content.dart';
+import 'package:ai_girlfriend/animations/loading_animation.dart';
 
 class ChatScreen extends StatefulWidget {
   ChatScreen({super.key});
@@ -15,12 +16,14 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final List<Message> _messages = [];
+  bool _isLoading = false;
 
   void callGeminiModel(String userMessage) async {
     try {
       if (userMessage.isNotEmpty) {
         setState(() {
           _messages.add(Message(text: userMessage, isUser: true));
+          _isLoading = true;
         });
       }
 
@@ -43,10 +46,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
       setState(() {
         _messages.add(Message(text: response.text!, isUser: false));
+        _isLoading = false;
       });
     } catch (e) {
       setState(() {
         _messages.add(Message(text: 'Something went wrong: $e', isUser: false));
+        _isLoading = false;
       });
     }
   }
@@ -65,8 +70,23 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: _messages.length,
+                itemCount: _messages.length + (_isLoading ? 1 : 0),
                 itemBuilder: (context, index) {
+                  if (index == _messages.length) {
+                    return ListTile(
+                      title: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: const BoxDecoration(
+                            color: MainStyle.girlMessageColor,
+                            borderRadius: MainStyle.girlMessageBorderRadius,
+                          ),
+                          child: const LoadingAnimation(),
+                        ),
+                      ),
+                    );
+                  }
                   final message = _messages[index];
                   return ListTile(
                     title: Align(
