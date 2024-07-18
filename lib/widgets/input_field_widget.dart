@@ -1,12 +1,30 @@
 import 'package:flutter/material.dart';
 
-class InputFieldWidget extends StatelessWidget {
-  const InputFieldWidget(
-      {super.key, required this.callChatBot, required this.controller});
+class InputFieldWidget extends StatefulWidget {
+  const InputFieldWidget({super.key, required this.onMessageSend});
 
-  final TextEditingController controller;
+  final void Function(String) onMessageSend;
 
-  final void Function() callChatBot;
+  @override
+  State<InputFieldWidget> createState() => _InputFieldWidgetState();
+}
+
+class _InputFieldWidgetState extends State<InputFieldWidget> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _sendMessage() {
+    final text = _controller.text.trim();
+    if (text.isNotEmpty) {
+      widget.onMessageSend(text);
+      _controller.clear();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +41,7 @@ class InputFieldWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  controller: controller,
+                  controller: _controller,
                   decoration: const InputDecoration(
                     filled: true,
                     border: InputBorder.none,
@@ -36,7 +54,7 @@ class InputFieldWidget extends StatelessWidget {
             ),
             const SizedBox(width: 25),
             IconButton(
-              onPressed: callChatBot,
+              onPressed: _sendMessage,
               icon: const Icon(Icons.send),
             ),
           ],

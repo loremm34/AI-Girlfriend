@@ -14,13 +14,14 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final _inputController = TextEditingController();
   final List<Message> _messages = [];
 
-  void callGeminiModel() async {
+  void callGeminiModel(String userMessage) async {
     try {
-      if (_inputController.text.isNotEmpty) {
-        _messages.add(Message(text: _inputController.text, isUser: true));
+      if (userMessage.isNotEmpty) {
+        setState(() {
+          _messages.add(Message(text: userMessage, isUser: true));
+        });
       }
 
       final model = GenerativeModel(
@@ -28,7 +29,6 @@ class _ChatScreenState extends State<ChatScreen> {
         apiKey: dotenv.env['GOOGLE_API_KEY']!,
       );
 
-      final userPrompt = _inputController.text.trim();
       final prompt =
           '''You are a friendly, normal girl named Alyna D`suza. You should behave as a shy, 
           cringy joking (but cute) girl. You should not behave like a TikTok addict or iPad kid.
@@ -36,7 +36,7 @@ class _ChatScreenState extends State<ChatScreen> {
           and sometimes watches TikTok but not all the time.
           The girl is not really talkative. If the person is right, then she will talk. Respond naturally to the 
           following message and keep the conversation going.
-          Here is the message: $userPrompt''';
+          Here is the message: $userMessage''';
       final content = [Content.text(prompt)];
 
       final response = await model.generateContent(content);
@@ -44,7 +44,6 @@ class _ChatScreenState extends State<ChatScreen> {
       setState(() {
         _messages.add(Message(text: response.text!, isUser: false));
       });
-      _inputController.clear();
     } catch (e) {
       setState(() {
         _messages.add(Message(text: 'Something went wrong: $e', isUser: false));
@@ -97,8 +96,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
             InputFieldWidget(
-              callChatBot: callGeminiModel,
-              controller: _inputController,
+              onMessageSend: callGeminiModel,
             ),
           ],
         ),
