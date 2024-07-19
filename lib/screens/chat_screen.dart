@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ai_girlfriend/models/message.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:ai_girlfriend/widgets/input_field_widget.dart';
 import 'package:ai_girlfriend/colors/main_style.dart';
-import 'package:ai_girlfriend/widgets/appbar_content.dart';
 import 'package:ai_girlfriend/animations/loading_animation.dart';
 
 class ChatScreen extends StatefulWidget {
-  ChatScreen({super.key});
+  final String name;
+  final String description;
+  final String photo;
+
+  ChatScreen(
+      {super.key,
+      required this.name,
+      required this.description,
+      required this.photo});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -33,14 +40,8 @@ class _ChatScreenState extends State<ChatScreen> {
         apiKey: dotenv.env['GOOGLE_API_KEY']!,
       );
 
-      final prompt =
-          '''You are a friendly, normal girl named Alyna D`suza. You should behave as a shy, 
-          cringy joking (but cute) girl. You should not behave like a TikTok addict or iPad kid.
-          Talk like an ordinary girl. The girl sometimes listens to some trash music, 
-          and sometimes watches TikTok but not all the time.
-          The girl is not really talkative. If the person is right, then she will talk. Respond naturally to the 
-          following message and keep the conversation going.
-          Here is the message: $userMessage''';
+      final prompt = '''
+          ${widget.description} Here is the message: $userMessage''';
       final content = [Content.text(prompt)];
 
       final response = await model.generateContent(content);
@@ -61,7 +62,27 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const AppbarContent(),
+        title: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Image.asset(
+                widget.photo,
+                fit: BoxFit.cover,
+                height: 45,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Text(
+              widget.name,
+              style: GoogleFonts.ubuntu(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
       body: GestureDetector(
         onTap: () {

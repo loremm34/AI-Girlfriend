@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppbarContent extends StatelessWidget {
-  const AppbarContent({super.key});
+  const AppbarContent({super.key, required this.name, required this.photo});
+
+  final String name;
+  final String photo;
 
   @override
   Widget build(BuildContext context) {
