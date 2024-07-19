@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ai_girlfriend/models/message.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:ai_girlfriend/widgets/input_field_widget.dart';
 import 'package:ai_girlfriend/colors/main_style.dart';
@@ -105,7 +106,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
                         child: Text(
                           message.text,
-                          style: TextStyle(
+                          style: GoogleFonts.ubuntu(
                             color: message.isUser ? Colors.white : Colors.black,
                           ),
                         ),

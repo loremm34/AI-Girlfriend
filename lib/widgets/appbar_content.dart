@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppbarContent extends StatelessWidget {
   const AppbarContent({super.key});
@@ -16,9 +17,9 @@ class AppbarContent extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 10),
-        const Text(
+        Text(
           'Alyna D\'suza',
-          style: TextStyle(
+          style: GoogleFonts.ubuntu(
             color: Colors.white,
             fontSize: 16,
             fontWeight: FontWeight.bold,
