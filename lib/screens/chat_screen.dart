@@ -12,7 +12,7 @@ class ChatScreen extends StatefulWidget {
   final String description;
   final String photo;
 
-  ChatScreen(
+  const ChatScreen(
       {super.key,
       required this.name,
       required this.description,

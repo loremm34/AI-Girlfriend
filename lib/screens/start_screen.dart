@@ -33,15 +33,13 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final CarouselController _controller = CarouselController();
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
         child: Container(
-          width: 300,
+          width: 400,
           height: 600,
           decoration: BoxDecoration(
-            color: Colors.black,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
@@ -51,6 +49,7 @@ class _StartScreenState extends State<StartScreen> {
                 child: CarouselSlider.builder(
                   itemCount: girlsList.length,
                   options: CarouselOptions(
+                    autoPlay: true,
                     height: 600,
                     onPageChanged: (index, reason) {
                       setState(() {
@@ -64,7 +63,6 @@ class _StartScreenState extends State<StartScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
                           child: Image.asset(
                             girl.photo,
                             fit: BoxFit.cover,
@@ -74,7 +72,7 @@ class _StartScreenState extends State<StartScreen> {
                         const SizedBox(height: 20),
                         Text(
                           girl.name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 24,
                             fontWeight: FontWeight.bold,

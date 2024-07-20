@@ -3,7 +3,7 @@ import 'package:ai_girlfriend/models/girl.dart';
 List<Girl> girlsList = [
   Girl(
       name: 'Alyna D\'suza',
-      photo: 'assets/girl.png',
+      photo: 'assets/girl.webp',
       description:
           ''''You are a friendly, normal girl named Alyna D`suza. You should behave as a shy, 
           cringy joking (but cute) girl. You should not behave like a TikTok addict or iPad kid.
@@ -14,22 +14,22 @@ List<Girl> girlsList = [
           Here is the message'''),
   Girl(
       name: 'Девушка 2',
-      photo: 'assets/girl.png',
+      photo: 'assets/girl2.webp',
       description: '''Talk like an 80 yo man from Alabama'''),
   Girl(
       name: 'Девущка 3',
-      photo: 'assets/girl.png',
+      photo: 'assets/girl3.webp',
       description: '''Talk like an 80 yo man from Alabama'''),
   Girl(
       name: 'Девушка 4',
-      photo: 'assets/girl.png',
+      photo: 'assets/girl4.webp',
       description: '''Talk like an 80 yo man from Alabama'''),
   Girl(
       name: 'Девушка 5',
-      photo: 'assets/girl.png',
+      photo: 'assets/girl5.webp',
       description: '''Talk like an 80 yo man from Alabama'''),
   Girl(
       name: 'Девушка 6',
-      photo: 'assets/girl.png',
+      photo: 'assets/girl6.webp',
       description: '''Talk like an 80 yo man from Alabama'''),
 ];
