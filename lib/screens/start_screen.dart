@@ -37,7 +37,7 @@ class _StartScreenState extends State<StartScreen> {
       backgroundColor: Colors.black,
       body: Center(
         child: Container(
-          width: 400,
+          width: 500,
           height: 600,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
@@ -66,10 +66,10 @@ class _StartScreenState extends State<StartScreen> {
                           child: Image.asset(
                             girl.photo,
                             fit: BoxFit.cover,
-                            height: 400,
+                            height: 410,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 15),
                         Text(
                           girl.name,
                           style: const TextStyle(
@@ -93,7 +93,7 @@ class _StartScreenState extends State<StartScreen> {
               ),
               const SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
                 child: Row(
                   children: [
                     Expanded(
@@ -109,7 +109,9 @@ class _StartScreenState extends State<StartScreen> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.pink,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 16,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),

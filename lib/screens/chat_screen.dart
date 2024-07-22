@@ -6,6 +6,8 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:ai_girlfriend/widgets/input_field_widget.dart';
 import 'package:ai_girlfriend/colors/main_style.dart';
 import 'package:ai_girlfriend/animations/loading_animation.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
 
 class ChatScreen extends StatefulWidget {
   final String name;
@@ -25,14 +27,30 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final List<Message> _messages = [];
   bool _isLoading = false;
+  late Box<Message> _messagesBox;
+
+  @override
+  void initState() {
+    _messagesBox = Hive.box<Message>('messagesBox');
+    super.initState();
+    _loadMessages();
+  }
+
+  void _loadMessages() {
+    setState(() {
+      _messages.addAll(_messagesBox.values);
+    });
+  }
 
   void callGeminiModel(String userMessage) async {
     try {
       if (userMessage.isNotEmpty) {
+        final userMessageObject = Message(text: userMessage, isUser: true);
         setState(() {
           _messages.add(Message(text: userMessage, isUser: true));
           _isLoading = true;
         });
+        _messagesBox.add(userMessageObject);
       }
 
       final model = GenerativeModel(
@@ -46,15 +64,22 @@ class _ChatScreenState extends State<ChatScreen> {
 
       final response = await model.generateContent(content);
 
+      final geminiMessageObject = Message(text: response.text!, isUser: false);
+
       setState(() {
         _messages.add(Message(text: response.text!, isUser: false));
         _isLoading = false;
       });
+
+      _messagesBox.add(geminiMessageObject);
     } catch (e) {
+      final errorMessageObj =
+          Message(text: 'Something went wrong: $e', isUser: false);
       setState(() {
         _messages.add(Message(text: 'Something went wrong: $e', isUser: false));
         _isLoading = false;
       });
+      _messagesBox.add(errorMessageObj);
     }
   }
 

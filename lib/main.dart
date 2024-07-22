@@ -1,9 +1,14 @@
+import 'package:ai_girlfriend/models/message.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_girlfriend/screens/start_screen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hive_flutter/adapters.dart';
 
 void main() async {
+  await Hive.initFlutter();
   await dotenv.load(fileName: '.env');
+  Hive.registerAdapter(MessageAdapter());
+  await Hive.openBox<Message>('messagesBox');
   runApp(const MyApp());
 }
 
