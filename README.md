@@ -1,4 +1,4 @@
-# AI Girlfriend A
+# AI Girlfriend
 
 Welcome to the AI Girlfriend application! This app allows you to chat with an AI-powered virtual girlfriend, with all interactions and messages handled by the Gemini AI model. You can select one of five virtual girlfriends, and all conversations are stored locally using Hive.
 
