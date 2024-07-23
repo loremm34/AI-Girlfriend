@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:ai_girlfriend/screens/start_screen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:ai_girlfriend/models/chat.dart';
 
 void main() async {
   await Hive.initFlutter();
   await dotenv.load(fileName: '.env');
   Hive.registerAdapter(MessageAdapter());
+  Hive.registerAdapter(ChatAdapter());
   await Hive.openBox<Message>('messagesBox');
+  await Hive.openBox<Chat>('chatsBox');
   runApp(const MyApp());
 }
 

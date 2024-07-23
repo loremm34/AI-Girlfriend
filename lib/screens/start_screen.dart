@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ai_girlfriend/screens/chat_screen.dart';
 import 'package:ai_girlfriend/data/girls_list.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ai_girlfriend/models/chat.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
@@ -12,16 +14,23 @@ class StartScreen extends StatefulWidget {
 
 class _StartScreenState extends State<StartScreen> {
   int currentIndex = 0;
+  late Box<Chat> _chatBox;
+
+  @override
+  void initState() {
+    super.initState();
+    _chatBox = Hive.box<Chat>("chatsBox");
+  }
+
   void startChat(
-    BuildContext context,
-    String name,
-    String photo,
-    String description,
-  ) {
+      BuildContext context, String name, String photo, String description) {
+    final chat = Chat(name: name, messages: []);
+    _chatBox.add(chat); // Ensure the chat is added to the Hive box
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (ctx) {
           return ChatScreen(
+            chat: chat,
             name: name,
             photo: photo,
             description: description,
@@ -50,6 +59,7 @@ class _StartScreenState extends State<StartScreen> {
                   itemCount: girlsList.length,
                   options: CarouselOptions(
                     autoPlay: true,
+                    autoPlayInterval: const Duration(seconds: 10),
                     height: 600,
                     onPageChanged: (index, reason) {
                       setState(() {
@@ -99,12 +109,12 @@ class _StartScreenState extends State<StartScreen> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          final girls = girlsList[currentIndex];
+                          final girl = girlsList[currentIndex];
                           startChat(
                             context,
-                            girls.name,
-                            girls.photo,
-                            girls.description,
+                            girl.name,
+                            girl.photo,
+                            girl.description,
                           );
                         },
                         style: ElevatedButton.styleFrom(
