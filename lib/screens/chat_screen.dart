@@ -145,6 +145,17 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  void _deleteChat(int index) {
+    final chat = _chatsBox.getAt(index);
+    setState(() {
+      _chatsBox.deleteAt(index);
+    });
+
+    if (widget.chat == chat) {
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,7 +194,18 @@ class _ChatScreenState extends State<ChatScreen> {
           itemBuilder: (context, index) {
             final chat = _chatsBox.getAt(index);
             return ListTile(
-              title: Text(chat!.name),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(chat!.name),
+                  IconButton(
+                    onPressed: () {
+                      _deleteChat(index);
+                    },
+                    icon: const Icon(Icons.delete),
+                  ),
+                ],
+              ),
               onTap: () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
